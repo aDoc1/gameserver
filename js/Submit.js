@@ -66,11 +66,15 @@ function sendRequest(){
                 });
                 console.log($('.gameRes').find('option:selected'));*/
 			} else {
+				$('.searchResults').show();
+				$('.gameRes').hide();
 				$('.searchError').show();
 				$('.searchError').html("<p>Game could not be found, make sure it is spelled correctly.</p>");
 			}
 		})
 	}).fail(function () {
+		$('.searchResults').show();
+		$('.gameRes').hide();
         $('.searchError').show();
         $('.searchError').html("<p>Problem with the gamebomb site, could not retrieve game information.</p>");
     });
