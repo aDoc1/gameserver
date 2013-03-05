@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GameServer</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/Submit.js"></script>
+<script src="js/date.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="logo">
+		<img src="https://dl.dropbox.com/u/51373694/GameServerlogo.png" alt='' height="100%" width="100%"></img>
+	</div>
+	<div class="info">
+		<div class="gb">Data provided by <a href="http://www.giantbomb.com">giantbomb</a></div>
+		<div class="madeby">Site made by Andrew Dougherty</div>
+	</div>
+	<div class="searchContainer">
+		<div class="searchForGame shadow">
+			<input type="search" class="search" placeholder="Enter Game"/> <button type="button" class="submit">Submit</button> <br/>
+        </div>
+        <div class="searchResults shadow">
+			<select class="gameRes" onchange="onDropdownClick()">
+			</select>
+			<div class="searchError"></div>
+		</div>
+		<div class="radioButtonContainer shadow">
+			<input type="radio" name="group1" id="Desc" class="radioB" value="1" onClick="onRadioClick(1)" checked="checked"/> Description <br/>
+			<input type="radio" name="group1" id="Pub" class="radioB" value="2" onClick="onRadioClick(2)"/> Publisher(s)<br/>
+			<input type="radio" name="group1" id="Dev" class="radioB" value="3" onClick="onRadioClick(3)"/> Developer(s)<br/>
+			<input type="radio" name="group1" id="Plat" class="radioB" value="4" onClick="onRadioClick(4)"/> Platform(s)<br/>
+			<input type="radio" name="group1" id="Genre" class="radioB" value="5" onClick="onRadioClick(5)"/> Genre(s)<br/>
+			<input type="radio" name="group1" id="Date" class="radioB" value="6" onClick="onRadioClick(6)"/> Release Date<br/>
+			<input type="radio" name="group1" id="Image" class="radioB" value="7" onClick="onRadioClick(7)"/> Box Art<p/>
+		</div>
+    </div>
+	<div class="resultsContainer shadow">
+		<div class="Description"></div>
+		<div class="Publishers"></div>
+		<div class="Developers"></div>
+		<div class="Platforms"></div>
+		<div class="Genres"></div>
+		<div class="ReleaseDate"></div>
+		<div class="BoxArt"></div>
+	</div>
+</div>
+</body>
+</html>

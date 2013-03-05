@@ -1,0 +1,166 @@
+/* CSS Document */
+
+body, html
+{
+	position:relative;
+	margin:0;
+	padding:0;
+	height:100%;
+	background-color: #485057;
+	font-family: helvetica, arial;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.logo{
+		height:20%;
+	}
+}
+
+.container
+{
+	position:relative;
+	height: 100%;
+	width: 60%;
+	margin: 0 auto;
+	background-color:#08695A;
+	overflow-y:auto;
+}
+
+.search 
+{
+	border-radius: 20px;
+	width:75%;
+	height:20px;
+	text-indent: 10px;
+	position: relative;
+	margin:10px;
+}
+
+.searchResults
+{
+	border-radius: 20px;
+	position:relative;
+	padding:20px;
+	margin-right:5%;
+	margin-top:10px;
+	width:50%;
+	margin-top:10px;
+	float:right;
+	
+}
+
+.searchContainer
+{
+	position:relative;
+	clear:left;
+}
+
+.searchForGame
+{
+	position: relative;
+	width:60%;
+	margin: 0 auto;
+	border-radius: 20px;
+	height:50px;
+}
+
+.shadow {
+  -moz-box-shadow:    5px 11px 10px -1px black;
+  -webkit-box-shadow: 5px 11px 10px -1px black;
+  box-shadow:         5px 11px 10px -1px black;
+}
+
+.submit {
+	position:relative;
+	margin-top: 10px;
+	-moz-box-shadow:inset 0px 1px 0px 0px #737373;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #737373;
+	box-shadow:inset 0px 1px 0px 0px #737373;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffe100), color-stop(1, #c9c900) );
+	background:-moz-linear-gradient( center top, #ffe100 5%, #c9c900 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe100', endColorstr='#c9c900');
+	background-color:#ffe100;
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:20px;
+	border:1px solid #5c5c5c;
+	display:inline-block;
+	color:#000000;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:4px 14px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+}.submit:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c9c900), color-stop(1, #ffe100) );
+	background:-moz-linear-gradient( center top, #c9c900 5%, #ffe100 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9c900', endColorstr='#ffe100');
+	background-color:#c9c900;
+}.submit:active {
+	position:relative;
+	top:1px;
+}
+
+.gameRes
+{
+	position: relative;
+	width:100%;
+	overflow-y:scroll;
+	font-size:16px;
+}
+
+.radioButtonContainer
+{
+	display: inline-block;
+	font-size:20px;
+	position:relative;
+	width: 30%;
+	margin-top:20px;
+	margin-left:7%;
+	float:left;
+	border-radius: 20px;
+}
+
+.resultsContainer
+{
+	position:relative;
+	margin-left:7%;
+	width:80%;
+	border-radius:20px;
+	padding: 20px 20px 10px 10px;
+	clear: left;
+	margin-top:20px;
+	margin-bottom:5%;
+	font-size:20px;
+}
+
+.BoxArt
+{
+	width:240px;
+	height:320px;
+	margin: 0 auto;
+}
+
+.info
+{
+	position:relative;
+	width:100%;
+	font-size:14px;
+}
+
+.gb
+{
+	padding:5px;
+	display:inline-block;
+	float:left;
+}
+
+.madeby
+{
+	padding:5px;
+	display:inline-block;
+	float:right;
+}
+
+
