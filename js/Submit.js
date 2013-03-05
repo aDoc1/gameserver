@@ -38,27 +38,33 @@ function sendRequest(){
 		success: (function myCallback(response){
 			$('.searchError').hide();
 			$('.searchResults').hide();
+			$('.gameRes').scrollTop(0);
+			
 			if(response.results.length == 1 && response.results[0].name.toLowerCase() == search.toLowerCase()) 
 			{
 				gameURL = response.results[0].api_detail_url;
 				getGameInfo(gameURL);
 			}
-			else if (response.results.length > 1) {
+			else if (response.results.length >= 1) {
 				$('.searchResults').show();
 				var gameList = $(".gameRes");
 				gameList.empty();
-				if(response.results.length > 10)
-				{
-					$('.gameRes').attr('size', 10)
-				}
-				else
-				{
-					$(".gameRes").append('<option></option>');
-					$('.gameRes').removeAttr("size")
-				}
-				$.each(response.results, function(i, object) {
-					gameList.append($('<option></option>').val(object.api_detail_url).html(object.name));
-				})
+				$.each(response.results, function (i, object) {
+                    if (i == 0)
+                        gameList.append($('<option selected="selected"></option>').val(object.api_detail_url).html(object.name));
+                    else
+                        gameList.append($('<option></option>').val(object.api_detail_url).html(object.name));
+                })
+                if (response.results.length > 10) {
+                    $('.gameRes').attr('size', 10);
+                }
+                else {
+                    $('.gameRes').attr('size', response.results.length);
+                }
+               /* $('option').hover(function(){
+					$this.val();
+                });
+                console.log($('.gameRes').find('option:selected'));*/
 			} else {
 				$('.searchError').show();
 				$('.searchError').html("<p>Game could not be found, make sure it is spelled correctly.</p>");
@@ -162,8 +168,8 @@ function getGameInfo(gameURL)
                 optChecked = 1;
 
             onRadioClick(parseInt(optChecked));
-            
-			$('.resultsContainer').show();
+
+            $('.resultsContainer').show();
 		})
 	})
 }

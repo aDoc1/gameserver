@@ -26,13 +26,22 @@ int main(int argc, char *argv[]) {
 	int clilen; // The length of the client's address
 	char* res; // stores the result
 	int yes = 1;
+	int pid;
 
 	struct sockaddr_in serv_addr; // The server's address
 	struct sockaddr_in cli_addr; // The client's address
 
 	char buffer[BUFFSIZE]; // a buffer to read results to.
 	int n; // number of bytes read
-
+	
+	/* Become deamon + unstopable and no zombies children (= no wait()) */
+	if(fork() != 0)
+	{
+		return 0; /* parent returns OK to shell */
+	}
+	signal(SIGCLD, SIG_IGN); /* ignore child death */
+	signal(SIGHUP, SIG_IGN); /* ignore terminal hangups */	
+	setpgrp();		/* break away from process group */
 	// set clilent to size of client address struct
 	clilen = sizeof(cli_addr);
 
@@ -62,10 +71,8 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 	
-	printf("Server IP: %s", (char *)inet_ntoa(serv_addr));
-
 	// Listen for a client.
-	listen(sockfd, 1);
+	listen(sockfd, 64);
 
 	while (1) { // go forever!
 		// Accept actual connection from the client
@@ -73,22 +80,30 @@ int main(int argc, char *argv[]) {
 			perror("ERROR on accept");
 			return EXIT_FAILURE;
 		}
-
-		// read from the socket
-		if ((n = read(newsockfd, buffer, BUFFSIZE, 0)) > 0) {
-			printf("%s", buffer);
-			res = handle_request(buffer);
-			write(newsockfd, res, strlen(res),0);
-			bzero(buffer, BUFFSIZE);
-			free(res);
+ 
+		if((pid = fork()) < 0) {
+			perror("error on fork");
+			return EXIT_FAILURE;
 		}
-
+		else {
+			if(pid == 0) { 	/* child */
+				close(sockfd);
+				if ((n = read(newsockfd, buffer, BUFFSIZE, 0)) > 0) {
+					printf("%s", buffer);
+					res = handle_request(buffer);
+					write(newsockfd, res, strlen(res),0);
+					bzero(buffer, BUFFSIZE);
+					free(res);
+				}
+			} else { 	/* parent */
+				close(newsockfd);
+			}
+		}
 		// close newsockfd
 		close(newsockfd);
 	}
 	// close sockfd
 	close(sockfd);
-
 	exit(0);
 }
 
