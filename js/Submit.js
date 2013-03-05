@@ -47,6 +47,7 @@ function sendRequest(){
 			}
 			else if (response.results.length >= 1) {
 				$('.searchResults').show();
+				$('.gameRes').show();
 				var gameList = $(".gameRes");
 				gameList.empty();
 				$.each(response.results, function (i, object) {
