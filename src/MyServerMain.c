@@ -89,12 +89,15 @@ int main(int argc, char *argv[]) {
 			if(pid == 0) { 	/* child */
 				close(sockfd);
 				if ((n = read(newsockfd, buffer, BUFFSIZE, 0)) > 0) {
-					printf("%s", buffer);
-					res = handle_request(buffer);
-					write(newsockfd, res, strlen(res),0);
-					bzero(buffer, BUFFSIZE);
-					free(res);
-				}
+                    printf("%s", buffer);
+                    //res = handle_request(buffer);
+                    //write(newsockfd, res, strlen(res),0);
+
+                    handle_request(buffer, newsockfd);
+
+                    bzero(buffer, BUFFSIZE);
+                    //free(res);
+                }
 			} else { 	/* parent */
 				close(newsockfd);
 			}

@@ -24,4 +24,4 @@ char* getFile(char * file);
  * GET /?f=fib&n=10 HTTP/1.1
  * So you'll have to use a tokenizer to pull out the "10" and "f=fib"
  */
-char* handle_request(char * req);
+void handle_request(char * req, int sockfd);

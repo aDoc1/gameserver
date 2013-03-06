@@ -17,31 +17,22 @@ struct {
 	{"js", "application/javascript"}, 
 	{0,0} };
 
-char* handle_request(char * req) {
-	char * rv; // This will be our return value
-	char * res; // This will point to a location in rv where we can write the html to.
-	char * ftoken; // this will be a token that we pull out of the 'path' variable indicating the function
-	               // for example, if you go to http://localhost:8000/?f=fib&n=10, this will be "f=fib"
-	char * atoken; // A token representing the argument to the function, i.e., "n=10"
-	char * tmp; // used to point to where the arguments start
-	char * html; // holds HTML page served up by the web server
+void handle_request(char * req, int sockfd) {
+	static char header[1024]; // holds the header text 
+	char * content; // holds the content served up by the web server
 	char * fstr; // holds content type
 	long len;
 	FILE *fp;
 	int reqlen, extlen, i;
-	
-	//printf("Request = %s\n", req);
 
-	reqlen=strlen(req);	
+	reqlen = strlen(req);	
 		
-	for(i=4;i<reqlen;i++) { /* null terminate after the second space to ignore extra stuff */
-		if(req[i] == ' ') { /* string is "GET URL " +lots of other stuff */
+	for(i=4; i<reqlen; i++) { /* null terminate after the second space to ignore extra stuff */
+		if(req[i] == ' ') {   /* string is "GET URL " + possibly other stuff */
 			req[i] = 0;
 			break;
 		}
 	}
-	
-	//printf("Request = %s\n", req);
 
 	if(strncmp(req,"GET /\0 ",6) == 0) /* convert no filename to index file */
 	{
@@ -50,7 +41,7 @@ char* handle_request(char * req) {
 	
 	
 	/* work out the file type and check we support it */
-	reqlen=strlen(req);
+	reqlen = strlen(req);
 	fstr = 0;
 	for(i=0;MIMETypes[i].ext != 0;i++) {
 		extlen = strlen(MIMETypes[i].ext);
@@ -60,25 +51,23 @@ char* handle_request(char * req) {
 		}
 	}
 	
-	if((fp = fopen(&req[5],"r")) == NULL) {  /* open the file for reading */
+	if((fp = fopen(&req[5],"rb")) == NULL) {  /* open the file for reading */
 		perror("Failed to open file\n");
 		exit(3);
 	}
 	fseek(fp, 0, SEEK_END);
 	len = ftell(fp);
-	fseek(fp, 0, SEEK_SET); /* lseek back to the file start ready for reading */
-	
-	
-	html = (char *)malloc(len * sizeof(char));
-	rv = (char *)malloc((len + 1000) * sizeof(char));
-	sprintf(rv, "HTTP/1.1 200 OK\nServer: adweb\nContent-Length: %ld\nConnection: close\nContent-Type: %s\n\n", len, fstr); /* Header + a blank line */
-	while (fgets(html, len, fp) != NULL) {
-		strcat(rv, html);		
-	}
-	
-	sleep(1);
-	fclose(fp);
-	free(html);
+	fseek(fp, 0, SEEK_SET); /* fseek back to the file start ready for reading */
+	content = (char *)malloc(len * sizeof(char));
 
-	return rv;
+	sprintf(header, "HTTP/1.1 200 OK\nServer: adweb\nContent-Length: %ld\nConnection: close\nContent-Type: %s\n\n", len, fstr); /* Header + a blank line */
+	write(sockfd, header, strlen(header));  /* write the header to the socket */
+	
+	if (fread(content, len, 1, fp) > 0) {  /* read the content from the file */
+		write(sockfd, content, len);	/* write the content to the socket */
+	}
+	fclose(fp);
+	free(content);
+	
+	close(sockfd);
 }
